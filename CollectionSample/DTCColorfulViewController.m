@@ -17,6 +17,7 @@
 
 // Class methods used as a "constant"
 +(NSString *) randomColorCellId;
++(NSInteger) maxRandomColorsToDisplay;
 
 @end
 
@@ -29,11 +30,16 @@
     return @"randomColorCell";
 }
 
++(NSInteger) maxRandomColorsToDisplay{
+    return 104;
+}
+
 
 #pragma mark - Init
 - (id) initWithModel:(DTCColors *) model layout:(UICollectionViewLayout *) aLayout{
     if(self = [super initWithCollectionViewLayout:aLayout]){
         _model = model;
+        self.title = @"Colorfull Stack";
     }
     return self;
 }
@@ -72,21 +78,22 @@
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of items
-    return 0;
+    return [DTCColorfulViewController maxRandomColorsToDisplay];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    // Configure the cell
+    // Grab a reusable cell
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId] forIndexPath:indexPath];
     
+    // Configure the cell's background color with the model's random color
+    cell.backgroundColor = [self.model randomColor];
     return cell;
 }
 

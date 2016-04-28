@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "DTCColors.h"
+#import "DTCColorfulViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    // Create model
+    DTCColors *model = [[DTCColors alloc] init];
+    
+    // Create and customize CollectionView's layout
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake(100, 50);
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.minimumInteritemSpacing = 10;
+    layout.minimumLineSpacing = 20;
+    
+    // Create controller
+    DTCColorfulViewController *cVC = [[DTCColorfulViewController alloc] initWithModel:model layout:layout];
+    
+    // Wrap in Navigation
+    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:cVC];
+    
+    
+    self.window.rootViewController = navVC;
+    
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
