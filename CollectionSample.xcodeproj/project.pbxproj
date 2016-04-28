@@ -11,6 +11,7 @@
 		59380C211CD13229000C99F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 59380C201CD13229000C99F0 /* AppDelegate.m */; };
 		59380C231CD13229000C99F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59380C221CD13229000C99F0 /* Assets.xcassets */; };
 		59380C261CD13229000C99F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59380C241CD13229000C99F0 /* LaunchScreen.storyboard */; };
+		59C242E61CD1D68C00FA9E88 /* DTCColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C242E51CD1D68C00FA9E88 /* DTCColors.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,8 @@
 		59380C221CD13229000C99F0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		59380C251CD13229000C99F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		59380C271CD13229000C99F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		59C242E41CD1D68C00FA9E88 /* DTCColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCColors.h; sourceTree = "<group>"; };
+		59C242E51CD1D68C00FA9E88 /* DTCColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCColors.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +56,7 @@
 		59380C1B1CD13228000C99F0 /* CollectionSample */ = {
 			isa = PBXGroup;
 			children = (
+				59C242E31CD1D66A00FA9E88 /* Models */,
 				59380C1F1CD13229000C99F0 /* AppDelegate.h */,
 				59380C201CD13229000C99F0 /* AppDelegate.m */,
 				59380C221CD13229000C99F0 /* Assets.xcassets */,
@@ -69,6 +73,15 @@
 				59380C1D1CD13228000C99F0 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		59C242E31CD1D66A00FA9E88 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				59C242E41CD1D68C00FA9E88 /* DTCColors.h */,
+				59C242E51CD1D68C00FA9E88 /* DTCColors.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +156,7 @@
 			files = (
 				59380C211CD13229000C99F0 /* AppDelegate.m in Sources */,
 				59380C1E1CD13228000C99F0 /* main.m in Sources */,
+				59C242E61CD1D68C00FA9E88 /* DTCColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +301,7 @@
 				59380C2C1CD13229000C99F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
