@@ -8,6 +8,8 @@
 
 #import "DTCColorfulViewController.h"
 #import "DTCColors.h"
+#import "UIColor+Colorful.h"
+#import "DTCRandomColorCell.h"
 
 @interface DTCColorfulViewController ()
 
@@ -107,10 +109,14 @@
 
 
 #pragma mark - Utils
-// Register random color cell => Use class registering as we use system cell
+// Register random color cell => Use nib registering as we use our custom cell
 - (void) registerRandomColorCell{
-    [self.collectionView registerClass:[UICollectionViewCell class]
-            forCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId]];
+    
+    // Read cell nib
+    UINib *nib = [UINib nibWithNibName:@"DTCRandomColorCell" bundle:nil];
+    
+    // Register it to the cell
+    [self.collectionView registerNib:nib forCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId]];
 }
 
 // Register gradient color cell => Use class registering as we use system cell
@@ -156,22 +162,22 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    // Grab a reusable cell
-    UICollectionViewCell *cell;
-    
     
     if(indexPath.section == [DTCColorfulViewController randomColorSection]){
-        // Random color cell
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId] forIndexPath:indexPath];
-        cell.backgroundColor = [self.model randomColor];
+        // Custom random color cell and configure it
+        DTCRandomColorCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId]
+                                                                             forIndexPath:indexPath];
+        
+        cell.color = [self.model randomColor];
+        return cell;
     }
     else{
-        // Gradient color cell
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController gradientColorCellId] forIndexPath:indexPath];
+        // Grab a reusable cell for gradient color cell
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController gradientColorCellId]
+                                                                               forIndexPath:indexPath];
         cell.backgroundColor = [self.model colorGradientAt:indexPath.item to:[DTCColorfulViewController maxGradientColorsToDisplay]];
+        return cell;
     }
-    
-    return cell;
 }
 
 - (UICollectionReusableView *) collectionView:(UICollectionView *)collectionView
