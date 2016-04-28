@@ -582,9 +582,9 @@
     NSInteger integerBlue = blue * 255;
     NSInteger integerAlpha = alpha * 255;
     
-    NSString *value = [NSString stringWithFormat:@"#%02x%02x%02x", integerRed, integerGreen, integerBlue];
+    NSString *value = [NSString stringWithFormat:@"#%02lx%02lx%02lx", (long)integerRed, (long)integerGreen, (long)integerBlue];
     if (integerAlpha != 255)
-        value = [value stringByAppendingFormat:@"%02x", integerAlpha];
+        value = [value stringByAppendingFormat:@"%02lx", (long)integerAlpha];
     
     return [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }

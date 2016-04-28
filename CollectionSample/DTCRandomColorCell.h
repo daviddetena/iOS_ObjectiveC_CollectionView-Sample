@@ -19,7 +19,6 @@
 @interface DTCRandomColorCell : UICollectionViewCell
 
 #pragma mark - Properties
-@property (weak, nonatomic) IBOutlet UILabel *hexLabel;
 @property (nonatomic, strong) UIColor *color;
 
 @end
