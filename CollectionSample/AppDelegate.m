@@ -27,8 +27,16 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize = CGSizeMake(100, 50);
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.minimumInteritemSpacing = 10;
+    layout.minimumInteritemSpacing = 5;
     layout.minimumLineSpacing = 20;
+    
+    // Add margin between sections
+    layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    
+    // Header
+    // With UICollectionViewScrollDirection vertical first param is ignored (as we want the full width). With horizontal, 2nd param is ignored
+    layout.headerReferenceSize = CGSizeMake(30, 50);
+    
     
     // Create controller
     DTCColorfulViewController *cVC = [[DTCColorfulViewController alloc] initWithModel:model layout:layout];

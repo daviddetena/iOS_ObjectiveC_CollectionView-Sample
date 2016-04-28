@@ -12,6 +12,7 @@
 @interface DTCColors : NSObject
 
 #pragma mark - Methods
+-(UIColor *) colorGradientAt:(NSUInteger) current to:(NSUInteger) maximum;
 -(UIColor *) randomColor;
 
 @end
