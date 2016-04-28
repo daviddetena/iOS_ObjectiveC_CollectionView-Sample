@@ -18,6 +18,7 @@
 // Class methods used as "constants"
 +(NSString *) randomColorCellId;
 +(NSString *) gradientColorCellId;
++(NSString *) sectionHeaderId;
 
 +(NSInteger) maxRandomColorsToDisplay;
 +(NSInteger) maxGradientColorsToDisplay;
@@ -40,6 +41,10 @@
 // Cell id for cells with gradient colors
 +(NSString *) gradientColorCellId{
     return @"gradientColorCell";
+}
+
++(NSString *) sectionHeaderId{
+    return @"sectionHeaderId";
 }
 
 // Max number of colors to display
@@ -86,6 +91,9 @@
     
     // Register gradient color cells
     [self registerGradientColorCell];
+    
+    // Register headers
+    [self registerSectionHeader];
 }
 
 
@@ -109,6 +117,13 @@
 - (void) registerGradientColorCell{
     [self.collectionView registerClass:[UICollectionViewCell class]
             forCellWithReuseIdentifier:[DTCColorfulViewController gradientColorCellId]];
+}
+
+- (void) registerSectionHeader{
+    // UICollectionReusableView is used for headers and footers, and is superclass for UICollectionCellView
+    [self.collectionView registerClass:[UICollectionReusableView class]
+            forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                   withReuseIdentifier:[DTCColorfulViewController sectionHeaderId]];
 }
 
 
@@ -151,6 +166,45 @@
     
     return cell;
 }
+
+- (UICollectionReusableView *) collectionView:(UICollectionView *)collectionView
+            viewForSupplementaryElementOfKind:(NSString *)kind
+                                  atIndexPath:(NSIndexPath *)indexPath{
+
+    UICollectionReusableView *supView;
+    
+    if(kind == UICollectionElementKindSectionHeader){
+        // View is header => Recycle or create header
+        supView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                     withReuseIdentifier:[DTCColorfulViewController sectionHeaderId]
+                                                            forIndexPath:indexPath];
+        
+        // Configure UICollectionReusableView
+        supView.backgroundColor = [UIColor colorWithWhite:0.65 alpha:1.0];
+        
+        // Check if the view has subviews and delete them so the title does not overlay
+        for (UIView *each in supView.subviews) {
+            [each removeFromSuperview];
+        }
+        
+        // Header label with supView dimensions
+        UILabel *title = [[UILabel alloc] initWithFrame:supView.bounds];
+        title.textColor = [UIColor whiteColor];
+        [supView addSubview:title];
+        
+        if(indexPath.section == [DTCColorfulViewController randomColorSection]){
+            // Header for random color section
+            title.text = @"Random";
+        }
+        else{
+            // Header for gradient color section
+            title.text = @"Gradient";
+        }
+    }
+    
+    return supView;
+}
+
 
 #pragma mark <UICollectionViewDelegate>
 

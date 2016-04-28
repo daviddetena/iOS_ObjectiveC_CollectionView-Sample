@@ -35,7 +35,7 @@
     
     // Header
     // With UICollectionViewScrollDirection vertical first param is ignored (as we want the full width). With horizontal, 2nd param is ignored
-    layout.headerReferenceSize = CGSizeMake(60, 60);
+    layout.headerReferenceSize = CGSizeMake(30, 50);
     
     
     // Create controller
