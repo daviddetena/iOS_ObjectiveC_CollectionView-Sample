@@ -8,6 +8,8 @@
 
 #import "DTCColorfulViewController.h"
 #import "DTCColors.h"
+#import "UIColor+Colorful.h"
+#import "DTCRandomColorCell.h"
 
 @interface DTCColorfulViewController ()
 
@@ -15,13 +17,12 @@
 // Property for our model
 @property (nonatomic, strong) DTCColors *model;
 @property (nonatomic) NSInteger maxRandomColorsToDisplay;
+@property (nonatomic) NSInteger maxGradientColorsToDisplay;
 
 // Class methods used as "constants"
 +(NSString *) randomColorCellId;
 +(NSString *) gradientColorCellId;
 +(NSString *) sectionHeaderId;
-
-+(NSInteger) maxGradientColorsToDisplay;
 
 +(NSUInteger) randomColorSection;
 +(NSUInteger) gradientColorSection;
@@ -47,12 +48,6 @@
     return @"sectionHeaderId";
 }
 
-
-// Max number of gradients to display
-+(NSInteger) maxGradientColorsToDisplay{
-    return 104;
-}
-
 // Random cells are in section #0
 +(NSUInteger) randomColorSection{
     return 0;
@@ -70,6 +65,7 @@
     if(self = [super initWithCollectionViewLayout:aLayout]){
         _model = model;
         _maxRandomColorsToDisplay = 104;        // 104 random colors to display when launched
+        _maxGradientColorsToDisplay = 104;      // 104 gradient colors to display when launched
         self.title = @"Colorfull Stack";
     }
     return self;
@@ -83,13 +79,9 @@
     [super viewDidLoad];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
-    // Register random color cells
+    // Register cells for random and gradient colors, and register header
     [self registerRandomColorCell];
-    
-    // Register gradient color cells
     [self registerGradientColorCell];
-    
-    // Register headers
     [self registerSectionHeader];
     
     // Create button to add a random color
@@ -107,10 +99,15 @@
 
 
 #pragma mark - Utils
-// Register random color cell => Use class registering as we use system cell
+// Register random color cell => Use nib registering as we use our custom cell
 - (void) registerRandomColorCell{
-    [self.collectionView registerClass:[UICollectionViewCell class]
-            forCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId]];
+    
+    // Read cell nib
+    UINib *nib = [UINib nibWithNibName:@"DTCRandomColorCell" bundle:nil];
+    
+    // Register it to the cell
+    [self.collectionView registerNib:nib
+          forCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId]];
 }
 
 // Register gradient color cell => Use class registering as we use system cell
@@ -129,7 +126,9 @@
 
 // Create and display an UIBarButtonItem in the navigation controller for adding a new random color
 - (void) addColorButton{
-    UIBarButtonItem *addColor = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRandomColor:)];
+    UIBarButtonItem *addColor = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                              target:self
+                                                                              action:@selector(addNewRandomColor:)];
     self.navigationItem.rightBarButtonItem = addColor;
 }
 
@@ -149,29 +148,29 @@
     }
     else{
         // Number of gradient color cells
-        return [DTCColorfulViewController maxGradientColorsToDisplay];
+        return [self maxGradientColorsToDisplay];
     }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    // Grab a reusable cell
-    UICollectionViewCell *cell;
-    
     
     if(indexPath.section == [DTCColorfulViewController randomColorSection]){
-        // Random color cell
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId] forIndexPath:indexPath];
-        cell.backgroundColor = [self.model randomColor];
+        // Custom random color cell and configure it
+        DTCRandomColorCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController randomColorCellId]
+                                                                             forIndexPath:indexPath];
+        
+        cell.color = [self.model randomColor];
+        return cell;
     }
     else{
-        // Gradient color cell
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController gradientColorCellId] forIndexPath:indexPath];
-        cell.backgroundColor = [self.model colorGradientAt:indexPath.item to:[DTCColorfulViewController maxGradientColorsToDisplay]];
+        // Grab a reusable cell for gradient color cell
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DTCColorfulViewController gradientColorCellId]
+                                                                               forIndexPath:indexPath];
+        cell.backgroundColor = [self.model colorGradientAt:indexPath.item to:[self maxGradientColorsToDisplay]];
+        return cell;
     }
-    
-    return cell;
 }
 
 - (UICollectionReusableView *) collectionView:(UICollectionView *)collectionView
@@ -197,52 +196,24 @@
         // Header label with supView dimensions
         UILabel *title = [[UILabel alloc] initWithFrame:supView.bounds];
         title.textColor = [UIColor whiteColor];
-        [supView addSubview:title];
         
-        if(indexPath.section == [DTCColorfulViewController randomColorSection]){
-            // Header for random color section
-            title.text = @"Random";
-        }
-        else{
-            // Header for gradient color section
-            title.text = @"Gradient";
-        }
-    }
-    
+        title.text = (indexPath.section == [DTCColorfulViewController randomColorSection]) ? @"Random colors" : @"Gradient colors";
+        [supView addSubview:title];
+    }    
     return supView;
 }
 
 
 #pragma mark <UICollectionViewDelegate>
 
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+// Add an animation when a color is tapped and turns to its complementary color (if random colors)
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.section == [DTCColorfulViewController randomColorSection]){
+        DTCRandomColorCell *cell = (DTCRandomColorCell *) [collectionView cellForItemAtIndexPath:indexPath];
+        cell.color = [cell.color complementaryColor];
+    }
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 
 #pragma mark - Actions
@@ -251,7 +222,8 @@
     self.maxRandomColorsToDisplay = self.maxRandomColorsToDisplay + 1;
     
     // Insert new item at the beginning of section #0
-    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:[DTCColorfulViewController randomColorSection]]]];
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:0
+                                                                       inSection:[DTCColorfulViewController randomColorSection]]]];
 }
 
 @end

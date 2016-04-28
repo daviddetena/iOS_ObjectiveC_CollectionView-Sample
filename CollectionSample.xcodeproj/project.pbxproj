@@ -13,6 +13,9 @@
 		59380C261CD13229000C99F0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59380C241CD13229000C99F0 /* LaunchScreen.storyboard */; };
 		59C242E61CD1D68C00FA9E88 /* DTCColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C242E51CD1D68C00FA9E88 /* DTCColors.m */; };
 		59C242EA1CD1D8FC00FA9E88 /* DTCColorfulViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C242E91CD1D8FC00FA9E88 /* DTCColorfulViewController.m */; };
+		59CBCC2A1CD27D5C00966410 /* DTCRandomColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59CBCC281CD27D5C00966410 /* DTCRandomColorCell.m */; };
+		59CBCC2B1CD27D5C00966410 /* DTCRandomColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59CBCC291CD27D5C00966410 /* DTCRandomColorCell.xib */; };
+		59CBCC2F1CD2801400966410 /* UIColor+Colorful.m in Sources */ = {isa = PBXBuildFile; fileRef = 59CBCC2E1CD2801400966410 /* UIColor+Colorful.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,11 @@
 		59C242E51CD1D68C00FA9E88 /* DTCColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCColors.m; sourceTree = "<group>"; };
 		59C242E81CD1D8FC00FA9E88 /* DTCColorfulViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCColorfulViewController.h; sourceTree = "<group>"; };
 		59C242E91CD1D8FC00FA9E88 /* DTCColorfulViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCColorfulViewController.m; sourceTree = "<group>"; };
+		59CBCC271CD27D5C00966410 /* DTCRandomColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCRandomColorCell.h; sourceTree = "<group>"; };
+		59CBCC281CD27D5C00966410 /* DTCRandomColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTCRandomColorCell.m; sourceTree = "<group>"; };
+		59CBCC291CD27D5C00966410 /* DTCRandomColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DTCRandomColorCell.xib; sourceTree = "<group>"; };
+		59CBCC2D1CD2801400966410 /* UIColor+Colorful.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Colorful.h"; sourceTree = "<group>"; };
+		59CBCC2E1CD2801400966410 /* UIColor+Colorful.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Colorful.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +67,8 @@
 		59380C1B1CD13228000C99F0 /* CollectionSample */ = {
 			isa = PBXGroup;
 			children = (
+				59CBCC2C1CD2800700966410 /* Categories */,
+				59CBCC261CD27D2600966410 /* Views */,
 				59C242E71CD1D88C00FA9E88 /* Controllers */,
 				59C242E31CD1D66A00FA9E88 /* Models */,
 				59380C1F1CD13229000C99F0 /* AppDelegate.h */,
@@ -95,6 +105,25 @@
 				59C242E91CD1D8FC00FA9E88 /* DTCColorfulViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		59CBCC261CD27D2600966410 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				59CBCC271CD27D5C00966410 /* DTCRandomColorCell.h */,
+				59CBCC281CD27D5C00966410 /* DTCRandomColorCell.m */,
+				59CBCC291CD27D5C00966410 /* DTCRandomColorCell.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		59CBCC2C1CD2800700966410 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				59CBCC2D1CD2801400966410 /* UIColor+Colorful.h */,
+				59CBCC2E1CD2801400966410 /* UIColor+Colorful.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59380C231CD13229000C99F0 /* Assets.xcassets in Resources */,
+				59CBCC2B1CD27D5C00966410 /* DTCRandomColorCell.xib in Resources */,
 				59380C261CD13229000C99F0 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,9 +198,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				59380C211CD13229000C99F0 /* AppDelegate.m in Sources */,
+				59CBCC2A1CD27D5C00966410 /* DTCRandomColorCell.m in Sources */,
 				59380C1E1CD13228000C99F0 /* main.m in Sources */,
 				59C242EA1CD1D8FC00FA9E88 /* DTCColorfulViewController.m in Sources */,
 				59C242E61CD1D68C00FA9E88 /* DTCColors.m in Sources */,
+				59CBCC2F1CD2801400966410 /* UIColor+Colorful.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
