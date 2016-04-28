@@ -14,13 +14,13 @@
 #pragma mark - Properties
 // Property for our model
 @property (nonatomic, strong) DTCColors *model;
+@property (nonatomic) NSInteger maxRandomColorsToDisplay;
 
 // Class methods used as "constants"
 +(NSString *) randomColorCellId;
 +(NSString *) gradientColorCellId;
 +(NSString *) sectionHeaderId;
 
-+(NSInteger) maxRandomColorsToDisplay;
 +(NSInteger) maxGradientColorsToDisplay;
 
 +(NSUInteger) randomColorSection;
@@ -47,24 +47,20 @@
     return @"sectionHeaderId";
 }
 
-// Max number of colors to display
-+(NSInteger) maxRandomColorsToDisplay{
-    return 104;
-}
 
 // Max number of gradients to display
 +(NSInteger) maxGradientColorsToDisplay{
     return 104;
 }
 
-// Random cells are in section #1
+// Random cells are in section #0
 +(NSUInteger) randomColorSection{
-    return 1;
+    return 0;
 }
 
-// Gradient cells are in section #0
+// Gradient cells are in section #1
 +(NSUInteger) gradientColorSection{
-    return 0;
+    return 1;
 }
 
 
@@ -73,6 +69,7 @@
 - (id) initWithModel:(DTCColors *) model layout:(UICollectionViewLayout *) aLayout{
     if(self = [super initWithCollectionViewLayout:aLayout]){
         _model = model;
+        _maxRandomColorsToDisplay = 104;        // 104 random colors to display when launched
         self.title = @"Colorfull Stack";
     }
     return self;
@@ -94,6 +91,9 @@
     
     // Register headers
     [self registerSectionHeader];
+    
+    // Create button to add a random color
+    [self addColorButton];
 }
 
 
@@ -119,11 +119,18 @@
             forCellWithReuseIdentifier:[DTCColorfulViewController gradientColorCellId]];
 }
 
+// UICollectionReusableView is used for headers and footers, and is superclass for UICollectionCellView
 - (void) registerSectionHeader{
-    // UICollectionReusableView is used for headers and footers, and is superclass for UICollectionCellView
     [self.collectionView registerClass:[UICollectionReusableView class]
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:[DTCColorfulViewController sectionHeaderId]];
+}
+
+
+// Create and display an UIBarButtonItem in the navigation controller for adding a new random color
+- (void) addColorButton{
+    UIBarButtonItem *addColor = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRandomColor:)];
+    self.navigationItem.rightBarButtonItem = addColor;
 }
 
 
@@ -138,7 +145,7 @@
     
     if(section == [DTCColorfulViewController randomColorSection]){
         // Number of random color cells
-        return [DTCColorfulViewController maxRandomColorsToDisplay];
+        return [self maxRandomColorsToDisplay];
     }
     else{
         // Number of gradient color cells
@@ -236,5 +243,15 @@
 	
 }
 */
+
+
+#pragma mark - Actions
+// Update model (max random colors) and add a new item for the collection view
+- (void) addNewRandomColor:(id) sender{
+    self.maxRandomColorsToDisplay = self.maxRandomColorsToDisplay + 1;
+    
+    // Insert new item at the beginning of section #0
+    [self.collectionView insertItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:[DTCColorfulViewController randomColorSection]]]];
+}
 
 @end
